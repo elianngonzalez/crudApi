@@ -19,6 +19,8 @@ $router->get('/', function () use ($router) {
 
 $router->get('libros', "LibroController@index" );
 
+$router->post('libros', "LibroController@save" );
+
 $router->get('hola/{nombre}', function ($nombre) {
     return "Hola {$nombre}";
 });
