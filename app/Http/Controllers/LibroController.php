@@ -11,4 +11,11 @@ class LibroController extends Controller{
         return response()->json($librosDatos);
     }
 
+    public function save(Request $request){
+        $libro = new Libro();
+        $libro->titulo = $request->input('titulo');
+        $libro->imagen = $request->input('imagen');
+        // $libro->save();
+        return response()->json($libro);
+    }
 }
