@@ -19,7 +19,7 @@ $router->get('/', function () use ($router) {
 
 $router->get('libros', "LibroController@index" );
 
-$router->post('libros/{id}', "LibroController@verOne" );
+$router->get('libros/{id}', "LibroController@verOne" );
 
 $router->post('/libros', "LibroController@guardar" );
 
