@@ -19,7 +19,13 @@ $router->get('/', function () use ($router) {
 
 $router->get('libros', "LibroController@index" );
 
+$router->get('libros/{id}', "LibroController@onliOne" );
+
 $router->post('libros', "LibroController@save" );
+
+$router->delete('libros/{id}', "LibroController@delete" );
+
+$router->put('libros/{id}', "LibroController@update" );
 
 $router->get('hola/{nombre}', function ($nombre) {
     return "Hola {$nombre}";
