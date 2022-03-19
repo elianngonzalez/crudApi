@@ -13,24 +13,72 @@ class LibroController extends Controller{
         return response()->json($librosDatos);
     }
 
-    public function onliOne($id){
+    public function verOne($id){
         $libro = Libro::find($id);
-        return response()->json($libro);
+
+        if($libro){            
+            $titulo = $libro->titulo;
+            $imagen = $libro->imagen;
+            
+            $libroDatos = [
+                'id'     => $id,
+                'titulo' => $titulo,
+                'imagen' => $imagen
+            ];
+            return response()->json([$libroDatos], 200);
+        }
+        
+        return response()->json(['error' => 'No se encontró el libro'], 404);
     }
 
-    public function save(Request $request){
+    public function guardar (Request $request){
         $libro = new Libro();
         
         if($request->hasFile("imagen")){
             $nombreArchivo = $request->file("imagen")->getClientOriginalName();
-
             $nuevoNombreArchivo = Carbon::now()->timestamp."_".$nombreArchivo;
+            $carpetaDestino = "./upload/";
+            $request->file("imagen")->move($carpetaDestino, $nuevoNombreArchivo);
+            $libro->titulo = $request->input('titulo');
+            $libro->imagen = ltrim($carpetaDestino, ".").$nuevoNombreArchivo;
+
+            $libro->save();
         }
 
-        $libro->titulo = $request->input('titulo');
-        $libro->imagen = $request->input('imagen');
-        // $libro->save();
-        return response()->json($nuevoNombreArchivo);
+        return response()->json([
+            'mensaje' => 'Libro guardado correctamente',
+            'libro' => $libro
+        ], 201);
+    }
+
+
+    public function eliminar($id){
+        $libro = Libro::find($id);
+
+        if($libro){
+            $libro->delete();
+            return response()->json([
+                'mensaje' => 'Libro eliminado correctamente',
+                'libro' => $id
+            ], 200);
+        }
+
+        return response()->json(['error' => 'No se encontró el libro'], 404);
+    }
+
+    public function actualizar (Request $request, $id){
+        $libro = Libro::find($id);
+
+        if($libro){
+            $libro->titulo = $request->input('titulo');
+            $libro->save();
+            return response()->json([
+                'mensaje' => 'Libro actualizado correctamente',
+                'libro' => $libro
+            ], 200);
+        }
+
+        return response()->json(['error' => 'No se encontró el libro'], 404);
     }
 
     //public function delete (Request $request){}

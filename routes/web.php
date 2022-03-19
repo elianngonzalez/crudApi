@@ -19,16 +19,15 @@ $router->get('/', function () use ($router) {
 
 $router->get('libros', "LibroController@index" );
 
-$router->get('libros/{id}', "LibroController@onliOne" );
+$router->post('libros/{id}', "LibroController@verOne" );
 
-$router->post('libros', "LibroController@save" );
+$router->post('/libros', "LibroController@guardar" );
 
-$router->delete('libros/{id}', "LibroController@delete" );
+$router->delete('libros/{id}', "LibroController@eliminar" );
 
-$router->put('libros/{id}', "LibroController@update" );
+$router->delete('libros/{id}', "LibroController@actualizar" );
 
-$router->get('hola/{nombre}', function ($nombre) {
-    return "Hola {$nombre}";
-});
+
+
 
 
